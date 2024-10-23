@@ -1,7 +1,7 @@
 // Import required modules
 const express = require("express");
 const app = express();
-const port = 3000; // Define a port number
+const port = 5000; // Define a port number
 
 // Middleware to parse JSON requests
 app.use(express.json());
@@ -13,12 +13,12 @@ let users = [
 ];
 
 // Route to get all users (GET request)
-app.get("/api/users", (req, res) => {
+app.get("/users", (req, res) => {
 	res.json(users); // Send the list of users as a response
 });
 
 // Route to get a specific user by ID (GET request)
-app.get("/api/users/:id", (req, res) => {
+app.get("/users/:id", (req, res) => {
 	const userId = parseInt(req.params.id);
 	const user = users.find((u) => u.id === userId);
 
@@ -30,7 +30,7 @@ app.get("/api/users/:id", (req, res) => {
 });
 
 // Route to add a new user (POST request)
-app.post("/api/users", (req, res) => {
+app.post("/users", (req, res) => {
 	const newUser = {
 		id: users.length + 1,
 		name: req.body.name,
@@ -42,7 +42,7 @@ app.post("/api/users", (req, res) => {
 });
 
 // Route to update an existing user (PUT request)
-app.put("/api/users/:id", (req, res) => {
+app.put("/users/:id", (req, res) => {
 	const userId = parseInt(req.params.id);
 	const userIndex = users.findIndex((u) => u.id === userId);
 
@@ -55,7 +55,7 @@ app.put("/api/users/:id", (req, res) => {
 });
 
 // Route to delete a user (DELETE request)
-app.delete("/api/users/:id", (req, res) => {
+app.delete("/users/:id", (req, res) => {
 	const userId = parseInt(req.params.id);
 	users = users.filter((u) => u.id !== userId);
 
@@ -64,5 +64,7 @@ app.delete("/api/users/:id", (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`);
+	console.log(
+		`Server is running on http://localhost:${process.env.PORT || port}`
+	);
 });
