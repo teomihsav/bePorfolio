@@ -1,9 +1,19 @@
 // Import required modules
+cors = require("cors");
 const express = require("express");
 const app = express();
 const port = 5000; // Define a port number
 
-cors = require("cors");
+// Define custom CORS options
+const corsOptions = {
+	origin: ["https://portfolio.ben.bg", "localhost"], // Allow only this domain
+	methods: ["GET", "POST", "PUT", "DELETE"], // Allow only these HTTP methods
+	allowedHeaders: ["Content-Type", "Authorization"], // Allow these headers
+	credentials: true, // Allow credentials (like cookies)
+};
+
+// Use custom CORS configuration
+app.use(cors(corsOptions));
 
 // Middleware to parse JSON requests
 app.use(express.json());
