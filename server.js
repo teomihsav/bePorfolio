@@ -6,7 +6,7 @@ const port = 5000; // Define a port number
 
 // Define custom CORS options
 const corsOptions = {
-	origin: ["https://portfolio.ben.bg", "localhost"], // Allow only this domain
+	origin: ["https://portfolio.ben.bg", "http://localhost:5173"], // Allow only this domain
 	methods: ["GET", "POST", "PUT", "DELETE"], // Allow only these HTTP methods
 	allowedHeaders: ["Content-Type", "Authorization"], // Allow these headers
 	credentials: true, // Allow credentials (like cookies)
