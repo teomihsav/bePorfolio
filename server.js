@@ -1,6 +1,11 @@
 // Import required modules
 cors = require("cors");
 const express = require("express");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(
+	"625073377461-md21kv5a7573uae4hdo9e1q5lvk705ib.apps.googleusercontent.com"
+);
+
 const app = express();
 const port = 5000; // Define a port number
 
@@ -72,6 +77,23 @@ app.delete("/users/:id", (req, res) => {
 	users = users.filter((u) => u.id !== userId);
 
 	res.json({ message: "User deleted" });
+});
+
+app.post("/auth/google", async (req, res) => {
+	const { token } = req.body;
+
+	try {
+		const ticket = await client.verifyIdToken({
+			idToken: token,
+			audience: "YOUR_GOOGLE_CLIENT_ID",
+		});
+		const payload = ticket.getPayload();
+
+		// Use payload.sub (user’s Google ID) and other data as needed
+		res.json({ message: "User authenticated", user: payload });
+	} catch (error) {
+		res.status(401).json({ error: "Invalid token" });
+	}
 });
 
 // Start the server
