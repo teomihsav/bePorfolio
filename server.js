@@ -79,8 +79,10 @@ app.delete("/users/:id", (req, res) => {
 	res.json({ message: "User deleted" });
 });
 
+// Route to authenticate a user with Google
 app.post("/auth/google", async (req, res) => {
 	const { token } = req.body;
+	console.log("token:", token);
 
 	try {
 		const ticket = await client.verifyIdToken({
@@ -89,6 +91,7 @@ app.post("/auth/google", async (req, res) => {
 				"625073377461-md21kv5a7573uae4hdo9e1q5lvk705ib.apps.googleusercontent.com",
 		});
 		const payload = ticket.getPayload();
+		console.log(payload);
 
 		// Use payload.sub (user’s Google ID) and other data as needed
 		res.json({ message: "User authenticated", user: payload });
