@@ -14,8 +14,8 @@ router.post("/", async function (req, res, next) {
 	const redirectURL = "http://localhost:5000/oauth";
 
 	const oAuth2Client = new OAuth2Client(
-		process.env.GOOGLE_CLIENT_ID,
-		process.env.GOOGLE_CLIENT_SECRET,
+		"625073377461-md21kv5a7573uae4hdo9e1q5lvk705ib.apps.googleusercontent.com",
+		"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",
 		redirectURL
 	);
 
