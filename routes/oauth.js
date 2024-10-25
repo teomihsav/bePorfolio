@@ -22,11 +22,7 @@ router.get("/", async function (req, res, next) {
 	console.log(code);
 	try {
 		const redirectURL = "http://localhost:5000/oauth";
-		const oAuth2Client = new OAuth2Client(
-			"625073377461-md21kv5a7573uae4hdo9e1q5lvk705ib.apps.googleusercontent.com",
-			"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",
-			redirectURL
-		);
+		const oAuth2Client = new OAuth2Client(redirectURL);
 		const r = await oAuth2Client.getToken(code);
 		// Make sure to set the credentials on the OAuth2 client.
 		await oAuth2Client.setCredentials(r.tokens);
