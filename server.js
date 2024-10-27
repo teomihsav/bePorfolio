@@ -2,6 +2,8 @@
 cors = require("cors");
 const express = require("express");
 const { OAuth2Client } = require("google-auth-library");
+const nodemailer = require("nodemailer");
+
 const client = new OAuth2Client(
 	"625073377461-md21kv5a7573uae4hdo9e1q5lvk705ib.apps.googleusercontent.com"
 );
@@ -98,6 +100,44 @@ app.post("/auth/google", async (req, res) => {
 	} catch (error) {
 		res.status(401).json({ error: "Invalid token" });
 	}
+});
+
+const sendMail = (msg) => {
+	// Create a transporter object using the default SMTP transport
+	let transporter = nodemailer.createTransport({
+		host: "ben.bg",
+		port: 465,
+		secure: true, // true for 465, false for other ports
+		auth: {
+			user: "contact@ben.bg", // your email address to send email from
+			pass: "r7XM6DHbL!Dpi:c", // your gmail account password
+		},
+	});
+
+	// Setup email data
+	let mailOptions = {
+		from: '"Comment from Web App" <contact@ben.bg>', // sender address
+		to: "contact@ben.bg", // list of receivers
+		subject: "Hello from Web App", // Subject line
+		text: "Hello world?", // plain text body
+		html: `<b>${msg}</b>`, // html body
+	};
+
+	// Send mail with defined transport object
+	transporter.sendMail(mailOptions, (error, info) => {
+		if (error) {
+			return console.log("SMTP error: ", error);
+		}
+		console.log("Message sent: %s", info.messageId);
+	});
+};
+
+app.post("/comment", async (req, res) => {
+	const { msg } = req.body;
+	console.log("req:", msg);
+	let resMail = sendMail(msg);
+	console.log("Res:", resMail);
+	res.json({ message: "Comment sent" });
 });
 
 // Start the server
